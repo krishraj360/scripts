@@ -253,8 +253,8 @@ def hdfs_tuning
       "dfs.datanode.handler.count",
       "The number of server threads for the DataNode. More threads means more read/write requests"+
       " can be handled simultaneously",
-      3,
-      "TODO", # TODO
+      10,
+      "Incremental increase based on performance", 
       "hdfs-site.xml"
     ),
     gen_param(
@@ -275,7 +275,7 @@ def hdfs_tuning
       "dfs.datanode.max.transfer.threads",
       "Specifies the maximum number of threads to use for transferring data in and out of the DataNode.",
       4096,
-      "TODO", # TODO
+      "Increase when datanode logs specify exceeding the number of transfer threads",
       "hdfs-site.xml"
     )
   ]
@@ -348,16 +348,16 @@ def yarn_tuning
       "yarn.app.mapreduce.am.resource.mb",
       "The amount of memory the MR AppMaster needs.",
       1536,
-      # TODO check this Cloudera recommends other value
-      ram_per_container,
+      
+      2 * ram_per_container,
       "mapred-site.xml"
     ),
     gen_param(
       "yarn.app.mapreduce.am.command-opts",
       "Java opts for the MR App Master processes.",
       "-Xmx1024m",
-      # TODO check this Cloudera recommends other value
-      "-Xmx#{0.8 * ram_per_container}m",
+     
+      "-Xmx#{0.8 * 2 * ram_per_container}m",
       "yarn-site.xml"
     ),
     gen_param(
@@ -371,8 +371,8 @@ def yarn_tuning
       "mapreduce.reduce.memory.mb",
       1024,
       "The amount of memory to request from the scheduler for each reduce task.",
-      # TODO check this Cloudera recommends other value
-      ram_per_container,
+     
+      2 * ram_per_container,
       "mapred-site.xml"
     ),
     gen_param(
@@ -386,8 +386,8 @@ def yarn_tuning
       "mapreduce.reduce.java.opts",
       "JVM options passed to the reducer",
       "",
-      # TODO check this Cloudera recommends other value
-      "-Xmx#{(0.8 * ram_per_container).to_i}m",
+      
+      "-Xmx#{(0.8 * 2 * ram_per_container).to_i}m",
       "mapred-site.xml"
     ),
     gen_param(
